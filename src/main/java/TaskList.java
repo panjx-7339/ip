@@ -7,22 +7,29 @@ public class TaskList {
         tasks.add(t);
     }
 
+    public Task removeTask(int index) throws PenguinException {
+        checkTaskExists(index);
+        return tasks.remove(index);
+    }
+
     public Task markTask(int index) throws PenguinException {
-        if (index < 0 || index >= tasks.size()) {
-            throw new PenguinException("This task does not exist in my list!");
-        }
+        checkTaskExists(index);
         Task t = tasks.get(index);
         t.markDone();
         return t;
     }
 
-    public Task UnmarkTask(int index) throws PenguinException {
-        if (index < 0 || index >= tasks.size()) {
-            throw new PenguinException("This task does not exist in my list!");
-        }
+    public Task unmarkTask(int index) throws PenguinException {
+        checkTaskExists(index);
         Task t = tasks.get(index);
         t.markUndone();
         return t;
+    }
+
+    public void checkTaskExists(int index) throws PenguinException {
+        if (index < 0 || index >= tasks.size()) {
+            throw new PenguinException("This task does not exist in my list!");
+        }
     }
 
     public Task getTask(int index) {

@@ -41,6 +41,12 @@ public class Penguin {
                 (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.");
     }
 
+    private static void removeTask(int index) throws PenguinException {
+        Task t = taskList.removeTask(index);
+        echo("Noted. I've removed this task:\n\t" + t + "\nNow you have " + taskList.getSize() +
+                (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.");
+    }
+
     private static void listTasks() {
         echo("Here are the tasks in your list:\n" + taskList);
     }
@@ -50,8 +56,8 @@ public class Penguin {
         echo("Nice! I've marked this task as done:\n\t" + t);
     }
 
-    private static void UnmarkTask(int index) throws PenguinException {
-        Task t = taskList.UnmarkTask(index);
+    private static void unmarkTask(int index) throws PenguinException {
+        Task t = taskList.unmarkTask(index);
         echo("OK, I've marked this task as not done yet:\n\t" + t);
     }
 
@@ -89,7 +95,16 @@ public class Penguin {
                             throw new PenguinException("Please enter a valid number!");
                         }
                         int index = Integer.parseInt(details) - 1;
-                        UnmarkTask(index);  // Mark task as done if user types "unmark"
+                        unmarkTask(index);  // Mark task as done if user types "unmark"
+
+                        break;
+                    }
+                    case "delete": {
+                        if (!details.matches("\\d+")) {
+                            throw new PenguinException("Please enter a valid number!");
+                        }
+                        int index = Integer.parseInt(details) - 1;
+                        removeTask(index);
 
                         break;
                     }
@@ -97,8 +112,8 @@ public class Penguin {
                         if (details.isEmpty()) {
                             throw new PenguinException("The description of a todo task cannot be empty!");
                         }
-
                         addTask(new ToDo(details));
+
                         break;
                     }
                     case "deadline": {
