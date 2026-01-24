@@ -31,12 +31,14 @@ public class Penguin {
         System.out.println("Bye. Hope to see you again soon!");
     }
 
-    private static void addTask(String description) {
-        taskList.add(new Task(description));
-        System.out.println("added: " + description);
+    private static void addTask(Task t) {
+        taskList.add(t);
+        System.out.println("Got it. I've added this task:\n\t" + t + "\nNow you have " + taskList.size() +
+                (taskList.size() > 1 ? " tasks" : " task") + " in the list.");
     }
 
     private static void listTasks() {
+        System.out.println("Here are the tasks in your list:");
         for (int i = 1; i <= taskList.size(); i++) {
             Task t = taskList.get(i-1);
             System.out.println(i + "." + t);
@@ -59,27 +61,69 @@ public class Penguin {
         start();
         Scanner sc = new Scanner(System.in);
         String input = "";
+        label:
         while (true) {
             input = sc.nextLine();
             String action = input.split("\\s+")[0];
 
             System.out.println("____________________________________________________");
-            if (action.equals("bye")) {
-                break;  // Exit conversation if user types the command "bye"
-            } else if (action.equals("list")) {
-                listTasks();  // List all tasks if user types "list"
-                System.out.println("____________________________________________________\n");
-            } else if (action.equals("mark")) {
-                int index = Integer.parseInt(input.split("\\s+")[1]) - 1;
-                markTask(index);  // Mark task as done if user types "mark"
-                System.out.println("____________________________________________________\n");
-            } else if (action.equals("unmark")) {
-                int index = Integer.parseInt(input.split("\\s+")[1]) - 1;
-                UnmarkTask(index);  // Mark task as done if user types "unmark"
-                System.out.println("____________________________________________________\n");
-            } else {
-                addTask(input);  // Else, add task with the given input as its description
-                System.out.println("____________________________________________________\n");
+            switch (action) {
+                case "bye":
+                    break label;  // Exit conversation if user types the command "bye"
+                case "list":
+                    listTasks();  // List all tasks if user types "list"
+
+                    System.out.println("____________________________________________________\n");
+                    break;
+                case "mark": {
+                    int index = Integer.parseInt(input.split("\\s+")[1]) - 1;
+                    markTask(index);  // Mark task as done if user types "mark"
+
+                    System.out.println("____________________________________________________\n");
+                    break;
+                }
+                case "unmark": {
+                    int index = Integer.parseInt(input.split("\\s+")[1]) - 1;
+                    UnmarkTask(index);  // Mark task as done if user types "unmark"
+
+                    System.out.println("____________________________________________________\n");
+                    break;
+                }
+                case "todo": {
+                    String description = input.split("\\s+")[1];
+                    addTask(new ToDo(description));
+
+                    System.out.println("____________________________________________________\n");
+                    break;
+                }
+                case "deadline": {
+                    input = input.replace(action, "");
+                    String[] bySplit = input.split("/by ");
+                    String description = bySplit[0].trim();
+                    String by = bySplit[1].trim();
+                    addTask(new Deadline(description, by));
+
+                    System.out.println("____________________________________________________\n");
+                    break;
+                }
+                case "event": {
+                    input = input.replace(action, "");
+                    String[] fromSplit = input.split("/from ");
+                    String description = fromSplit[0].trim();
+                    String[] toSplit = fromSplit[1].split("/to ");
+                    String from = toSplit[0].trim();
+                    String to = toSplit[1].trim();
+
+                    addTask(new Event(description, from, to));
+
+                    System.out.println("____________________________________________________\n");
+                    break;
+                }
+                default:
+                    System.out.println("Please enter a valid input.");
+
+                    System.out.println("____________________________________________________\n");
+                    break;
             }
         }
         sc.close();
