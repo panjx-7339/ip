@@ -45,74 +45,96 @@ public class Penguin {
         echo("Here are the tasks in your list:\n" + taskList);
     }
 
-    private static void markTask(int index) {
+    private static void markTask(int index) throws PenguinException {
         Task t = taskList.markTask(index);
         echo("Nice! I've marked this task as done:\n\t" + t);
     }
 
-    private static void UnmarkTask(int index) {
+    private static void UnmarkTask(int index) throws PenguinException {
         Task t = taskList.UnmarkTask(index);
         echo("OK, I've marked this task as not done yet:\n\t" + t);
     }
+
 
     public static void main(String[] args) {
         start();
         Scanner sc = new Scanner(System.in);
         String input;
-        label:
+        run:
         while (true) {
-            input = sc.nextLine();
-            String action = input.split("\\s+")[0];
+            try {
+                input = sc.nextLine();
+                String[] inputs = input.split("\\s+", 2);
+                String action = inputs[0];
 
-            switch (action) {
-                case "bye":
-                    break label;  // Exit conversation if user types the command "bye"
-                case "list":
-                    listTasks();  // List all tasks if user types "list"
-                    break;
-                case "mark": {
-                    int index = Integer.parseInt(input.split("\\s+")[1]) - 1;
-                    markTask(index);  // Mark task as done if user types "mark"
+                String details = inputs.length > 1 ? inputs[1] : "";
 
-                    break;
+                switch (action) {
+                    case "bye":
+                        break run;  // Exit conversation if user types the command "bye"
+                    case "list":
+                        listTasks();  // List all tasks if user types "list"
+                        break;
+                    case "mark": {
+                        if (!details.matches("\\d+")) {
+                            throw new PenguinException("Please enter a valid number!");
+                        }
+                        int index = Integer.parseInt(details) - 1;
+                        markTask(index);  // Mark task as done if user types "mark"
+
+                        break;
+                    }
+                    case "unmark": {
+                        if (!details.matches("\\d+")) {
+                            throw new PenguinException("Please enter a valid number!");
+                        }
+                        int index = Integer.parseInt(details) - 1;
+                        UnmarkTask(index);  // Mark task as done if user types "unmark"
+
+                        break;
+                    }
+                    case "todo": {
+                        if (details.isEmpty()) {
+                            throw new PenguinException("The description of a todo task cannot be empty!");
+                        }
+
+                        addTask(new ToDo(details));
+                        break;
+                    }
+                    case "deadline": {
+                        if (details.isEmpty()) {
+                            throw new PenguinException("The description of a deadline task cannot be empty!");
+                        }
+
+                        String[] bySplit = details.split("/by ");
+                        String description = bySplit[0].trim();
+                        String by = bySplit[1].trim();
+                        addTask(new Deadline(description, by));
+
+                        break;
+                    }
+                    case "event": {
+                        if (details.isEmpty()) {
+                            throw new PenguinException("The description of an event task cannot be empty!");
+                        }
+
+                        String[] fromSplit = details.split("/from ");
+                        String description = fromSplit[0].trim();
+                        String[] toSplit = fromSplit[1].split("/to ");
+                        String from = toSplit[0].trim();
+                        String to = toSplit[1].trim();
+
+                        addTask(new Event(description, from, to));
+
+                        break;
+                    }
+                    default:
+                        throw new PenguinException("Please enter a valid command!");
                 }
-                case "unmark": {
-                    int index = Integer.parseInt(input.split("\\s+")[1]) - 1;
-                    UnmarkTask(index);  // Mark task as done if user types "unmark"
-
-                    break;
-                }
-                case "todo": {
-                    String description = input.replace(action, "").trim();
-                    addTask(new ToDo(description));
-
-                    break;
-                }
-                case "deadline": {
-                    input = input.replace(action, "");
-                    String[] bySplit = input.split("/by ");
-                    String description = bySplit[0].trim();
-                    String by = bySplit[1].trim();
-                    addTask(new Deadline(description, by));
-
-                    break;
-                }
-                case "event": {
-                    input = input.replace(action, "");
-                    String[] fromSplit = input.split("/from ");
-                    String description = fromSplit[0].trim();
-                    String[] toSplit = fromSplit[1].split("/to ");
-                    String from = toSplit[0].trim();
-                    String to = toSplit[1].trim();
-
-                    addTask(new Event(description, from, to));
-
-                    break;
-                }
-                default:
-                    echo("Please enter a valid input.");
-                    break;
+            } catch (Exception e) {
+                echo(e.getMessage());
             }
+
         }
         sc.close();
         exit();
