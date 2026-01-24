@@ -90,7 +90,7 @@ public class Penguin {
                     break;
                 }
                 case "todo": {
-                    String description = input.split("\\s+")[1];
+                    String description = input.replace(action, "").trim();
                     addTask(new ToDo(description));
 
                     System.out.println("____________________________________________________\n");
