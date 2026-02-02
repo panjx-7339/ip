@@ -1,3 +1,8 @@
+package storage;
+
+import exception.PenguinException;
+import task.*;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,7 +15,7 @@ import java.util.Objects;
 public class Storage {
     private static final Path FILE_PATH = Paths.get("data", "Penguin.txt");
 
-    public static void saveData(TaskList tasks) throws PenguinException{
+    public static void saveData(TaskList tasks) throws PenguinException {
         // Save list of tasks to /data/Penguin.txt
         try {
             // Create directory if it does not exist
