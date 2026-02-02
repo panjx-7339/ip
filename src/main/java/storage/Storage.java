@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,6 +89,9 @@ public class Storage {
             }
             case "D": {
                 String by = parts[3];
+                // Change by string to correct LocalDateTime format
+                LocalDateTime dateTime = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("d MMM yyyy ha"));
+                by = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
                 Task t = new Deadline(description, by);
                 if (isDone) {
                     t.markDone();
