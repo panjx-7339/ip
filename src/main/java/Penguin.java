@@ -73,103 +73,104 @@ public class Penguin {
         echo("OK, I've marked this task as not done yet:\n\t" + t);
     }
 
+    private static void run() {
+        Scanner sc = new Scanner(System.in);
+        String input;
+        while (true) {
+            try {
+                input = sc.nextLine();
+                String[] inputs = input.split("\\s+", 2);
+                String action = inputs[0];
+
+                String details = inputs.length > 1 ? inputs[1] : "";
+
+                switch (action) {
+                case "bye":
+                    sc.close();
+                    return;  // Exit conversation if user types the command "bye"
+                case "list":
+                    listTasks();  // List all tasks if user types "list"
+                    break;
+                case "mark": {
+                    if (!details.matches("\\d+")) {
+                        throw new PenguinException("Please enter a valid number!");
+                    }
+                    int index = Integer.parseInt(details) - 1;
+
+                    markTask(index);  // Mark task as done if user types "mark"
+                    Storage.saveData(taskList);
+                    break;
+                }
+                case "unmark": {
+                    if (!details.matches("\\d+")) {
+                        throw new PenguinException("Please enter a valid number!");
+                    }
+                    int index = Integer.parseInt(details) - 1;
+
+                    unmarkTask(index);  // Mark task as done if user types "unmark"
+                    Storage.saveData(taskList);
+                    break;
+                }
+                case "delete": {
+                    if (!details.matches("\\d+")) {
+                        throw new PenguinException("Please enter a valid number!");
+                    }
+                    int index = Integer.parseInt(details) - 1;
+
+                    removeTask(index);
+                    Storage.saveData(taskList);
+                    break;
+                }
+                case "todo": {
+                    if (details.isEmpty()) {
+                        throw new PenguinException("The description of a todo task cannot be empty!");
+                    }
+
+                    addTask(new ToDo(details));
+                    Storage.saveData(taskList);
+                    break;
+                }
+                case "deadline": {
+                    if (details.isEmpty()) {
+                        throw new PenguinException("The description of a deadline task cannot be empty!");
+                    }
+
+                    String[] bySplit = details.split("/by ");
+                    String description = bySplit[0].trim();
+                    String by = bySplit[1].trim();
+
+                    addTask(new Deadline(description, by));
+                    Storage.saveData(taskList);
+                    break;
+                }
+                case "event": {
+                    if (details.isEmpty()) {
+                        throw new PenguinException("The description of an event task cannot be empty!");
+                    }
+
+                    String[] fromSplit = details.split("/from ");
+                    String description = fromSplit[0].trim();
+                    String[] toSplit = fromSplit[1].split("/to ");
+                    String from = toSplit[0].trim();
+                    String to = toSplit[1].trim();
+
+                    addTask(new Event(description, from, to));
+                    Storage.saveData(taskList);
+                    break;
+                }
+                default:
+                    throw new PenguinException("Please enter a valid command!");
+                }
+            } catch (Exception e) {
+                echo(e.getMessage());
+            }
+        }
+    }
 
     public static void main(String[] args) {
-
             start();
             loadTasks();
-            Scanner sc = new Scanner(System.in);
-            String input;
-            run:
-            while (true) {
-                try {
-                    input = sc.nextLine();
-                    String[] inputs = input.split("\\s+", 2);
-                    String action = inputs[0];
-
-                    String details = inputs.length > 1 ? inputs[1] : "";
-
-                    switch (action) {
-                    case "bye":
-                        break run;  // Exit conversation if user types the command "bye"
-                    case "list":
-                        listTasks();  // List all tasks if user types "list"
-                        break;
-                    case "mark": {
-                        if (!details.matches("\\d+")) {
-                            throw new PenguinException("Please enter a valid number!");
-                        }
-                        int index = Integer.parseInt(details) - 1;
-
-                        markTask(index);  // Mark task as done if user types "mark"
-                        Storage.saveData(taskList);
-                        break;
-                    }
-                    case "unmark": {
-                        if (!details.matches("\\d+")) {
-                            throw new PenguinException("Please enter a valid number!");
-                        }
-                        int index = Integer.parseInt(details) - 1;
-
-                        unmarkTask(index);  // Mark task as done if user types "unmark"
-                        Storage.saveData(taskList);
-                        break;
-                    }
-                    case "delete": {
-                        if (!details.matches("\\d+")) {
-                            throw new PenguinException("Please enter a valid number!");
-                        }
-                        int index = Integer.parseInt(details) - 1;
-
-                        removeTask(index);
-                        Storage.saveData(taskList);
-                        break;
-                    }
-                    case "todo": {
-                        if (details.isEmpty()) {
-                            throw new PenguinException("The description of a todo task cannot be empty!");
-                        }
-
-                        addTask(new ToDo(details));
-                        Storage.saveData(taskList);
-                        break;
-                    }
-                    case "deadline": {
-                        if (details.isEmpty()) {
-                            throw new PenguinException("The description of a deadline task cannot be empty!");
-                        }
-
-                        String[] bySplit = details.split("/by ");
-                        String description = bySplit[0].trim();
-                        String by = bySplit[1].trim();
-
-                        addTask(new Deadline(description, by));
-                        Storage.saveData(taskList);
-                        break;
-                    }
-                    case "event": {
-                        if (details.isEmpty()) {
-                            throw new PenguinException("The description of an event task cannot be empty!");
-                        }
-
-                        String[] fromSplit = details.split("/from ");
-                        String description = fromSplit[0].trim();
-                        String[] toSplit = fromSplit[1].split("/to ");
-                        String from = toSplit[0].trim();
-                        String to = toSplit[1].trim();
-
-                        addTask(new Event(description, from, to));
-                        Storage.saveData(taskList);
-                        break;
-                    }
-                    default:
-                        throw new PenguinException("Please enter a valid command!");
-                    }
-                } catch (Exception e) {
-                    echo(e.getMessage());
-                }
-            }
-            sc.close();
+            run();
             exit();
     }
 }
