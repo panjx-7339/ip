@@ -1,7 +1,19 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Penguin {
-    private static TaskList taskList = new TaskList();
+    private static TaskList taskList;
+
+    private static void loadTasks() {
+        try {
+            ArrayList<Task> loadedTasks = Storage.loadData();
+            taskList = new TaskList(loadedTasks);
+            echo("Loaded task list from file.");
+        } catch (PenguinException e) {
+            echo(e.getMessage() + "\nInitialising new list.");
+            taskList = new TaskList();
+        }
+    }
 
     private static void echo(String s) {
         System.out.println("____________________________________________________");
@@ -63,19 +75,21 @@ public class Penguin {
 
 
     public static void main(String[] args) {
-        start();
-        Scanner sc = new Scanner(System.in);
-        String input;
-        run:
-        while (true) {
-            try {
-                input = sc.nextLine();
-                String[] inputs = input.split("\\s+", 2);
-                String action = inputs[0];
 
-                String details = inputs.length > 1 ? inputs[1] : "";
+            start();
+            loadTasks();
+            Scanner sc = new Scanner(System.in);
+            String input;
+            run:
+            while (true) {
+                try {
+                    input = sc.nextLine();
+                    String[] inputs = input.split("\\s+", 2);
+                    String action = inputs[0];
 
-                switch (action) {
+                    String details = inputs.length > 1 ? inputs[1] : "";
+
+                    switch (action) {
                     case "bye":
                         break run;  // Exit conversation if user types the command "bye"
                     case "list":
@@ -86,8 +100,9 @@ public class Penguin {
                             throw new PenguinException("Please enter a valid number!");
                         }
                         int index = Integer.parseInt(details) - 1;
-                        markTask(index);  // Mark task as done if user types "mark"
 
+                        markTask(index);  // Mark task as done if user types "mark"
+                        Storage.saveData(taskList);
                         break;
                     }
                     case "unmark": {
@@ -95,8 +110,9 @@ public class Penguin {
                             throw new PenguinException("Please enter a valid number!");
                         }
                         int index = Integer.parseInt(details) - 1;
-                        unmarkTask(index);  // Mark task as done if user types "unmark"
 
+                        unmarkTask(index);  // Mark task as done if user types "unmark"
+                        Storage.saveData(taskList);
                         break;
                     }
                     case "delete": {
@@ -104,16 +120,18 @@ public class Penguin {
                             throw new PenguinException("Please enter a valid number!");
                         }
                         int index = Integer.parseInt(details) - 1;
-                        removeTask(index);
 
+                        removeTask(index);
+                        Storage.saveData(taskList);
                         break;
                     }
                     case "todo": {
                         if (details.isEmpty()) {
                             throw new PenguinException("The description of a todo task cannot be empty!");
                         }
-                        addTask(new ToDo(details));
 
+                        addTask(new ToDo(details));
+                        Storage.saveData(taskList);
                         break;
                     }
                     case "deadline": {
@@ -124,8 +142,9 @@ public class Penguin {
                         String[] bySplit = details.split("/by ");
                         String description = bySplit[0].trim();
                         String by = bySplit[1].trim();
-                        addTask(new Deadline(description, by));
 
+                        addTask(new Deadline(description, by));
+                        Storage.saveData(taskList);
                         break;
                     }
                     case "event": {
@@ -140,18 +159,17 @@ public class Penguin {
                         String to = toSplit[1].trim();
 
                         addTask(new Event(description, from, to));
-
+                        Storage.saveData(taskList);
                         break;
                     }
                     default:
                         throw new PenguinException("Please enter a valid command!");
+                    }
+                } catch (Exception e) {
+                    echo(e.getMessage());
                 }
-            } catch (Exception e) {
-                echo(e.getMessage());
             }
-
-        }
-        sc.close();
-        exit();
+            sc.close();
+            exit();
     }
 }
