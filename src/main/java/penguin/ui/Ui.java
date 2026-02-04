@@ -1,10 +1,11 @@
-package ui;
+package penguin.ui;
 
-import exception.PenguinException;
+import penguin.exception.PenguinException;
 import task.Task;
+import task.TaskList;
 
 public class Ui {
-    public static final String DIVIDER = "____________________________________________________";
+    public final String DIVIDER = "____________________________________________________";
 
     public void echo(String s) {
         System.out.println(DIVIDER);
@@ -38,25 +39,25 @@ public class Ui {
         echo("Bye. Hope to see you again soon!");
     }
 
-    public void showTaskAdded(Task t) {
+    public void showTaskAdded(Task t, TaskList taskList) {
         echo("Got it. I've added this task:\n\t" + t + "\nNow you have " + taskList.getSize() +
                 (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.");
     }
 
-    public void showTaskRemoved(int index) throws PenguinException {
+    public void showTaskRemoved(Task t, TaskList taskList) {
         echo("Noted. I've removed this task:\n\t" + t + "\nNow you have " + taskList.getSize() +
                 (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.");
     }
 
-    public void showTaskList() {
+    public void showTaskList(TaskList taskList) {
         echo("Here are the tasks in your list:\n" + taskList);
     }
 
-    public void showTaskMarked(int index) throws PenguinException {
+    public void showTaskMarked(Task t) throws PenguinException {
         echo("Nice! I've marked this task as done:\n\t" + t);
     }
 
-    public void showTaskUnmarked(int index) throws PenguinException {
+    public void showTaskUnmarked(Task t) throws PenguinException {
         echo("OK, I've marked this task as not done yet:\n\t" + t);
     }
 }

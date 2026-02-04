@@ -1,19 +1,20 @@
-package parser;
+package penguin.parser;
 
-import exception.PenguinException;
+import penguin.exception.PenguinException;
 import task.Deadline;
 import task.Event;
 import task.ToDo;
-import ui.Ui;
-import commands.Command;
-import exception.PenguinException;
+import penguin.ui.Ui;
+import penguin.commands.Command;
+import penguin.Penguin;
 
 public class Parser {
     private Command command;
 
-    public Parser() {
-        command = new Command();
+    public Parser(Command command) {
+        this.command = command;
     }
+
     private int parseIndex(String args) throws PenguinException {
         if (!args.matches("\\d+")) {
             throw new PenguinException("Please enter a valid number!");
@@ -69,7 +70,7 @@ public class Parser {
         command.addTask(new Event(description, from, to));
     }
 
-    public void parseUserInput(Ui ui, Command command, String input) throws PenguinException {
+    public void parseUserInput(String input) throws PenguinException {
         String[] inputs = input.split("\\s+", 2);
         String action = inputs[0];
 

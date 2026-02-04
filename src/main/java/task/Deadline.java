@@ -1,5 +1,5 @@
 package task;
-import exception.PenguinException;
+import penguin.exception.PenguinException;
 
 import java.time.LocalDateTime;
 import java.time.LocalDate;

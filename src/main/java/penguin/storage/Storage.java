@@ -1,6 +1,6 @@
-package storage;
+package penguin.storage;
 
-import exception.PenguinException;
+import penguin.exception.PenguinException;
 import task.*;
 
 import java.io.BufferedWriter;
@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,7 +39,7 @@ public class Storage {
     public ArrayList<Task> loadData() throws PenguinException {
         // Create new list if data file does not exist
         if (!Files.exists(filePath)) {
-            return new ArrayList<>();
+            throw new PenguinException("File does not exist.");
         }
         ArrayList<Task> tasks = new ArrayList<>();
         try {
@@ -50,10 +49,8 @@ public class Storage {
                 tasks.add(decode(line));
             }
             return tasks;
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new PenguinException("Error loading data from disk!");
-        } catch (PenguinException e) {
-            throw new PenguinException("Error saving data to disk! " + e.getMessage());
         }
     }
 
