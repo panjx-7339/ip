@@ -6,7 +6,6 @@ import task.*;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,14 +15,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Storage {
-    private static final Path FILE_PATH = Paths.get("data", "Penguin.txt");
+    private Path filePath;
 
-    public static void saveData(TaskList tasks) throws PenguinException {
+    public Storage(Path filePath) {
+        this.filePath = filePath;
+    }
+
+    public void saveData(TaskList tasks) throws PenguinException {
         // Save list of tasks to /data/Penguin.txt
         try {
             // Create directory if it does not exist
-            Files.createDirectories(FILE_PATH.getParent());
-            try (BufferedWriter writer = Files.newBufferedWriter(FILE_PATH)) {
+            Files.createDirectories(filePath.getParent());
+            try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
                 for (Task t : tasks.getTasks()) {
                     writer.write(encode(t));
                     writer.newLine();
@@ -34,14 +37,14 @@ public class Storage {
         }
     }
 
-    public static ArrayList<Task> loadData() throws PenguinException {
+    public ArrayList<Task> loadData() throws PenguinException {
         // Create new list if data file does not exist
-        if (!Files.exists(FILE_PATH)) {
+        if (!Files.exists(filePath)) {
             return new ArrayList<>();
         }
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            List<String> lines = Files.readAllLines(FILE_PATH);
+            List<String> lines = Files.readAllLines(filePath);
 
             for (String line : lines) {
                 tasks.add(decode(line));
@@ -54,7 +57,7 @@ public class Storage {
         }
     }
 
-    private static String encode(Task t) {
+    private String encode(Task t) {
         String isDone = t.isDone() ? "1" : "0";
         String description = t.getDescription();
         String taskType;
@@ -72,7 +75,7 @@ public class Storage {
         return "";
     }
 
-    private static Task decode(String line) throws PenguinException {
+    private Task decode(String line) throws PenguinException {
         try {
             String[] parts = line.split(" \\| ");
 

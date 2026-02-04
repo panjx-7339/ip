@@ -1,4 +1,4 @@
-package task;
+package penguin.commands.task;
 
 public class Task {
     protected String description;
@@ -18,7 +18,7 @@ public class Task {
     }
 
     public String getStatusIcon() {
-        return (isDone ? "X" : " "); // mark completed task with X
+        return (isDone ? "X" : " "); // mark completed penguin.commands.task with X
     }
 
     public void markDone() {
