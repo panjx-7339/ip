@@ -42,7 +42,9 @@ public class TaskList {
         }
     }
 
-    public ArrayList<Task> getTasks() { return tasks; }
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
 
     public int getSize() {
         return tasks.size();
@@ -52,9 +54,11 @@ public class TaskList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i <= tasks.size(); i++) {
-            Task t = tasks.get(i-1);
+            Task t = tasks.get(i - 1);
             sb.append(i).append(".").append(t);
-            if (i < tasks.size()) sb.append("\n");
+            if (i < tasks.size()) {
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

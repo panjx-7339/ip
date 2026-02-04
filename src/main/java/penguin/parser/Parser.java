@@ -1,10 +1,10 @@
 package penguin.parser;
 
+import penguin.commands.Command;
 import penguin.exception.PenguinException;
 import penguin.task.Deadline;
 import penguin.task.Event;
 import penguin.task.ToDo;
-import penguin.commands.Command;
 
 public class Parser {
     private Command command;
@@ -76,7 +76,7 @@ public class Parser {
 
         switch (action) {
         case "list":
-            command.listTasks();  // List all tasks if user types "list"
+            command.listTasks(); // List all tasks if user types "list"
             break;
         case "mark": {
             prepareMark(args); // Mark task as done if user types "mark"
