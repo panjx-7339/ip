@@ -5,8 +5,8 @@ import penguin.exception.PenguinException;
 import penguin.storage.Storage;
 import penguin.ui.Ui;
 import penguin.parser.Parser;
-import task.Task;
-import task.TaskList;
+import penguin.task.Task;
+import penguin.task.TaskList;
 
 import java.util.ArrayList;
 import java.util.Scanner;

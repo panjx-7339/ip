@@ -1,8 +1,8 @@
 package penguin.commands;
 
 import penguin.exception.PenguinException;
-import task.Task;
-import task.TaskList;
+import penguin.task.Task;
+import penguin.task.TaskList;
 import penguin.ui.Ui;
 import penguin.storage.Storage;
 
