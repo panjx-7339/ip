@@ -1,12 +1,10 @@
 package penguin.parser;
 
 import penguin.exception.PenguinException;
-import task.Deadline;
-import task.Event;
-import task.ToDo;
-import penguin.ui.Ui;
+import penguin.task.Deadline;
+import penguin.task.Event;
+import penguin.task.ToDo;
 import penguin.commands.Command;
-import penguin.Penguin;
 
 public class Parser {
     private Command command;

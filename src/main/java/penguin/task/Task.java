@@ -1,4 +1,4 @@
-package task;
+package penguin.task;
 
 public class Task {
     protected String description;

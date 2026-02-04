@@ -1,8 +1,8 @@
 package penguin.ui;
 
 import penguin.exception.PenguinException;
-import task.Task;
-import task.TaskList;
+import penguin.task.Task;
+import penguin.task.TaskList;
 
 public class Ui {
     public final String DIVIDER = "____________________________________________________";
