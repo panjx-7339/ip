@@ -1,17 +1,21 @@
 package penguin.storage;
 
-import penguin.exception.PenguinException;
-import penguin.task.*;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import penguin.exception.PenguinException;
+import penguin.task.Deadline;
+import penguin.task.Event;
+import penguin.task.Task;
+import penguin.task.TaskList;
+import penguin.task.ToDo;
 
 public class Storage {
     private Path filePath;
@@ -107,10 +111,11 @@ public class Storage {
                 }
                 return t;
             }
+            default:
+                return null;
             }
         } catch (Exception e) {
             throw new PenguinException("Error parsing line!");
         }
-        return null;
     }
 }

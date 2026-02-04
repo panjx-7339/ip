@@ -1,17 +1,17 @@
 package penguin;
 
-import penguin.commands.Command;
-import penguin.exception.PenguinException;
-import penguin.storage.Storage;
-import penguin.ui.Ui;
-import penguin.parser.Parser;
-import penguin.task.Task;
-import penguin.task.TaskList;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import penguin.commands.Command;
+import penguin.exception.PenguinException;
+import penguin.parser.Parser;
+import penguin.storage.Storage;
+import penguin.task.Task;
+import penguin.task.TaskList;
+import penguin.ui.Ui;
 
 public class Penguin {
     private Storage storage;
