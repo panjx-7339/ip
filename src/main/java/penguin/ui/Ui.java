@@ -4,7 +4,7 @@ import penguin.task.Task;
 import penguin.task.TaskList;
 
 public class Ui {
-    public final String DIVIDER = "____________________________________________________";
+    private final String DIVIDER = "____________________________________________________";
 
     public void echo(String s) {
         System.out.println(DIVIDER);

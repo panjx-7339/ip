@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import penguin.exception.PenguinException;
 
 public class TaskList {
-    protected ArrayList<Task> tasks;
+    private ArrayList<Task> tasks;
 
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;

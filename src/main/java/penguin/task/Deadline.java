@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import penguin.exception.PenguinException;
 
 public class Deadline extends Task {
-    protected LocalDateTime by;
+    private LocalDateTime by;
 
     public Deadline(String description, String by) throws PenguinException {
         super(description);

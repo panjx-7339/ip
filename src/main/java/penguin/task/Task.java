@@ -1,12 +1,12 @@
 package penguin.task;
 
 public class Task {
-    protected String description;
-    protected boolean isDone;
+    private String description;
+    private boolean isDone;
 
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        isDone = false;
     }
 
     public String getDescription() {
@@ -22,15 +22,15 @@ public class Task {
     }
 
     public void markDone() {
-        this.isDone = true;
+        isDone = true;
     }
 
     public void markUndone() {
-        this.isDone = false;
+        isDone = false;
     }
 
     @Override
     public String toString() {
-        return ("[" + this.getStatusIcon() + "] " + this.description);
+        return ("[" + getStatusIcon() + "] " + description);
     }
 }
