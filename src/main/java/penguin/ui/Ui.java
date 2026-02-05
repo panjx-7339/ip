@@ -1,7 +1,5 @@
 package penguin.ui;
 
-import java.lang.reflect.Array;
-
 import penguin.task.Task;
 import penguin.task.TaskList;
 

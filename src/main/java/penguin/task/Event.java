@@ -1,9 +1,5 @@
 package penguin.task;
 
-import java.time.LocalDateTime;
-
-import penguin.exception.PenguinException;
-
 /**
  * The {@code Event} class represents a task that occurs over a specified
  * period of time.
