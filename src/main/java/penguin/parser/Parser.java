@@ -68,6 +68,13 @@ public class Parser {
         command.addTask(new Event(description, from, to));
     }
 
+    private void prepareFind(String args) throws PenguinException {
+        if (args.isEmpty()) {
+            throw new PenguinException("Please enter a task keyword!");
+        }
+        command.findTasks(args);
+    }
+
     public void parseUserInput(String input) throws PenguinException {
         String[] inputs = input.split("\\s+", 2);
         String action = inputs[0];
@@ -100,6 +107,10 @@ public class Parser {
         }
         case "event": {
             prepareEvent(args);
+            break;
+        }
+        case "find": {
+            prepareFind(args);
             break;
         }
         default:
