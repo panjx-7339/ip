@@ -6,9 +6,21 @@ import penguin.task.Deadline;
 import penguin.task.Event;
 import penguin.task.ToDo;
 
+/**
+ * The {@code Parser} class interprets user input and translates it into
+ * executable commands.
+ * <p>
+ * It parses the user's raw input string, validates arguments, and
+ * delegates the corresponding actions to the {@link Command} class.
+ */
 public class Parser {
     private Command command;
 
+    /**
+     * Constructs a {@code Parser} with the given command handler.
+     *
+     * @param command the {@code Command} object responsible for executing parsed user commands
+     */
     public Parser(Command command) {
         this.command = command;
     }
@@ -68,6 +80,17 @@ public class Parser {
         command.addTask(new Event(description, from, to));
     }
 
+    /**
+     * Parses and executes a user input command.
+     * <p>
+     * The input is split into a command keyword and its arguments.
+     * Supported commands include {@code list}, {@code mark},
+     * {@code unmark}, {@code delete}, {@code todo}, {@code deadline},
+     * and {@code event}.
+     *
+     * @param input the raw user input string
+     * @throws PenguinException if the command or arguments are invalid
+     */
     public void parseUserInput(String input) throws PenguinException {
         String[] inputs = input.split("\\s+", 2);
         String action = inputs[0];
