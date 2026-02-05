@@ -1,5 +1,7 @@
 package penguin.ui;
 
+import java.lang.reflect.Array;
+
 import penguin.task.Task;
 import penguin.task.TaskList;
 
@@ -103,5 +105,9 @@ public class Ui {
      */
     public void showTaskUnmarked(Task t) {
         echo("OK, I've marked this task as not done yet:\n\t" + t);
+    }
+
+    public void showMatchingTasks(TaskList matchingTasks) {
+        echo("Here are the matching tasks in your list:\n" + matchingTasks);
     }
 }

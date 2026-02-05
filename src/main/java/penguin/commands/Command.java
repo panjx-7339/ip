@@ -1,5 +1,7 @@
 package penguin.commands;
 
+import java.util.ArrayList;
+
 import penguin.exception.PenguinException;
 import penguin.storage.Storage;
 import penguin.task.Task;
@@ -88,5 +90,15 @@ public class Command {
         Task t = taskList.unmarkTask(index);
         ui.showTaskUnmarked(t);
         storage.saveData(taskList);
+    }
+
+    public void findTasks(String keyword) {
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task t : taskList.getTasks()) {
+            if (t.getDescription().contains(keyword)) {
+                matchingTasks.add(t);
+            }
+        }
+        ui.showMatchingTasks(new TaskList(matchingTasks));
     }
 }

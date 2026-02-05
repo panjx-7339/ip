@@ -1,3 +1,4 @@
 T | 1 | buy bread
 D | 0 | do work | 1 Jan 2026 2pm
 E | 0 | project meeting | 2pm | 3pm
+D | 0 | buy milk | 1 Jan 2026 4pm
