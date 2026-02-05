@@ -1,6 +1,8 @@
 package penguin.task;
-import penguin.exception.PenguinException;
+
 import java.util.ArrayList;
+
+import penguin.exception.PenguinException;
 
 public class TaskList {
     protected ArrayList<Task> tasks;

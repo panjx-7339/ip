@@ -6,7 +6,7 @@ plugins {
 }
 
 checkstyle {
-    toolVersion = '13.1.0'
+    toolVersion = '11.1.0'
 }
 
 repositories {
@@ -38,10 +38,10 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "duke"
+    archiveBaseName = "penguin"
     archiveClassifier = null
 }
 
-run{
+run {
     standardInput = System.in
 }
