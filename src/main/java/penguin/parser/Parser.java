@@ -93,7 +93,7 @@ public class Parser {
      * The input is split into a command keyword and its arguments.
      * Supported commands include {@code list}, {@code mark},
      * {@code unmark}, {@code delete}, {@code todo}, {@code deadline},
-     * and {@code event}.
+     * {@code event} and {@code find}.
      *
      * @param input the raw user input string
      * @throws PenguinException if the command or arguments are invalid
