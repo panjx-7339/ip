@@ -7,8 +7,8 @@ package penguin.task;
  * stores common attributes such as description and completion status.
  */
 public class Task {
-    protected String description;
-    protected boolean isDone;
+    private String description;
+    private boolean isDone;
 
     /**
      * Constructs a {@code Task} with the given description.
@@ -17,7 +17,7 @@ public class Task {
      */
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        isDone = false;
     }
 
     /**
@@ -51,14 +51,14 @@ public class Task {
      * Marks this task as completed.
      */
     public void markDone() {
-        this.isDone = true;
+        isDone = true;
     }
 
     /**
      * Marks this task as not completed.
      */
     public void markUndone() {
-        this.isDone = false;
+        isDone = false;
     }
 
     /**
@@ -68,6 +68,6 @@ public class Task {
      */
     @Override
     public String toString() {
-        return ("[" + this.getStatusIcon() + "] " + this.description);
+        return ("[" + getStatusIcon() + "] " + description);
     }
 }

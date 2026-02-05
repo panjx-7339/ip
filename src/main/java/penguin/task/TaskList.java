@@ -11,7 +11,7 @@ import penguin.exception.PenguinException;
  * while ensuring index validity.
  */
 public class TaskList {
-    protected ArrayList<Task> tasks;
+    private ArrayList<Task> tasks;
 
     /**
      * Constructs a {@code TaskList} with an existing list of tasks.

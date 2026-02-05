@@ -14,7 +14,7 @@ import penguin.exception.PenguinException;
  * It extends {@link Task} and stores a deadline as a {@link LocalDateTime}.
  */
 public class Deadline extends Task {
-    protected LocalDateTime by;
+    private LocalDateTime by;
 
     /**
      * Constructs a {@code Deadline} task with the given description
