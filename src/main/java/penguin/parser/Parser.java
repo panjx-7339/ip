@@ -32,29 +32,29 @@ public class Parser {
         return Integer.parseInt(args) - 1;
     }
 
-    private void prepareMark(String args) throws PenguinException {
+    private String prepareMark(String args) throws PenguinException {
         int index = parseIndex(args);
-        command.markTask(index);
+        return command.markTask(index);
     }
 
-    private void prepareUnmark(String args) throws PenguinException {
+    private String prepareUnmark(String args) throws PenguinException {
         int index = parseIndex(args);
-        command.unmarkTask(index);
+        return command.unmarkTask(index);
     }
 
-    private void prepareRemove(String args) throws PenguinException {
+    private String prepareRemove(String args) throws PenguinException {
         int index = parseIndex(args);
-        command.removeTask(index);
+        return command.removeTask(index);
     }
 
-    private void prepareTodo(String args) throws PenguinException {
+    private String prepareTodo(String args) throws PenguinException {
         if (args.isEmpty()) {
             throw new PenguinException("The description of a todo task cannot be empty!");
         }
-        command.addTask(new ToDo(args));
+        return command.addTask(new ToDo(args));
     }
 
-    private void prepareDeadline(String args) throws PenguinException {
+    private String prepareDeadline(String args) throws PenguinException {
         if (args.isEmpty()) {
             throw new PenguinException("The description of a deadline task cannot be empty!");
         }
@@ -63,10 +63,10 @@ public class Parser {
         String description = bySplit[0].trim();
         String by = bySplit[1].trim();
 
-        command.addTask(new Deadline(description, by));
+        return command.addTask(new Deadline(description, by));
     }
 
-    private void prepareEvent(String args) throws PenguinException {
+    private String prepareEvent(String args) throws PenguinException {
         if (args.isEmpty()) {
             throw new PenguinException("The description of an event task cannot be empty!");
         }
@@ -77,14 +77,14 @@ public class Parser {
         String from = toSplit[0].trim();
         String to = toSplit[1].trim();
 
-        command.addTask(new Event(description, from, to));
+        return command.addTask(new Event(description, from, to));
     }
 
-    private void prepareFind(String args) throws PenguinException {
+    private String prepareFind(String args) throws PenguinException {
         if (args.isEmpty()) {
             throw new PenguinException("Please enter a task keyword!");
         }
-        command.findTasks(args);
+        return command.findTasks(args);
     }
 
     /**
@@ -98,43 +98,36 @@ public class Parser {
      * @param input the raw user input string
      * @throws PenguinException if the command or arguments are invalid
      */
-    public void parseUserInput(String input) throws PenguinException {
+    public String parseUserInput(String input) throws PenguinException {
         String[] inputs = input.split("\\s+", 2);
         String action = inputs[0];
 
         String args = inputs.length > 1 ? inputs[1] : "";
 
         switch (action) {
+            // Todo: handle exit command
         case "list":
-            command.listTasks(); // List all tasks if user types "list"
-            break;
+            return command.listTasks(); // List all tasks if user types "list"
         case "mark": {
-            prepareMark(args); // Mark task as done if user types "mark"
-            break;
+            return prepareMark(args); // Mark task as done if user types "mark"
         }
         case "unmark": {
-            prepareUnmark(args); // Mark task as undone if user types "unmark"
-            break;
+            return prepareUnmark(args); // Mark task as undone if user types "unmark"
         }
         case "delete": {
-            prepareRemove(args);
-            break;
+            return prepareRemove(args);
         }
         case "todo": {
-            prepareTodo(args);
-            break;
+            return prepareTodo(args);
         }
         case "deadline": {
-            prepareDeadline(args);
-            break;
+            return prepareDeadline(args);
         }
         case "event": {
-            prepareEvent(args);
-            break;
+            return prepareEvent(args);
         }
         case "find": {
-            prepareFind(args);
-            break;
+            return prepareFind(args);
         }
         default:
             throw new PenguinException("Please enter a valid command!");

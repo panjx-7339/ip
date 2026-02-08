@@ -1,7 +1,6 @@
 package penguin;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,6 +23,7 @@ public class Penguin {
     private TaskList taskList;
     private Ui ui;
     private Parser parser;
+    private Path filePath;
 
     /**
      * Constructs a {@code Penguin} application instance.
@@ -36,22 +36,32 @@ public class Penguin {
      */
     public Penguin(Path filePath) {
         ui = new Ui();
-        ui.start();
-        loadTasks(filePath);
-
+        this.filePath = filePath;
+        loadTasks();
         Command command = new Command(taskList, storage);
         parser = new Parser(command);
     }
 
-    private void loadTasks(Path filePath) {
+    public String welcome() {
+        return ui.start();
+    }
+
+    public String showLoadedTasks() {
+        if (loadTasks()) {
+            return ui.echo("I've loaded your task list from the previous session.");
+        }
+        return ui.echo("I've created a new task list.");
+    }
+
+    private boolean loadTasks() {
         storage = new Storage(filePath);
         try {
             ArrayList<Task> loadedTasks = storage.loadData();
             taskList = new TaskList(loadedTasks);
-            ui.echo("Loaded task list from file.");
+            return true;
         } catch (PenguinException e) {
-            ui.echo(e.getMessage() + "\nInitialising new list.");
             taskList = new TaskList();
+            return false;
         }
     }
 
@@ -75,15 +85,11 @@ public class Penguin {
         sc.close();
     }
 
-    /**
-     * The main entry point of the Penguin application.
-     * <p>
-     * This method creates a {@code Penguin} instance using the default
-     * data file location and starts the application.
-     *
-     * @param args command-line arguments (not used)
-     */
-    public static void main(String[] args) {
-        new Penguin(Paths.get("data", "Penguin.txt")).run();
+    public String respond(String input) {
+        try {
+            return parser.parseUserInput(input);
+        } catch (Exception e) {
+            return ui.echo(e.getMessage());
+        }
     }
 }
