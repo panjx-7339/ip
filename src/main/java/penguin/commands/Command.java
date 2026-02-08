@@ -92,6 +92,11 @@ public class Command {
         storage.saveData(taskList);
     }
 
+    /**
+     * Finds one or more tasks in the task list that match
+     * the specified keyword(s)
+     * @param keyword the keyword present in the desired task
+     */
     public void findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task t : taskList.getTasks()) {
