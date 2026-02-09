@@ -10,8 +10,6 @@ import penguin.task.TaskList;
  * and application status updates to the user via standard output.
  */
 public class Ui {
-    private final String DIVIDER = "____________________________________________________";
-
     /**
      * Displays a message to the user surrounded by dividers.
      *
@@ -22,17 +20,10 @@ public class Ui {
     }
 
     /**
-     * Displays the welcome message and application logo.
+     * Displays the welcome message.
      */
     public String start() {
         return "Hello! I'm Penguin, your personal task tracker. What can I do for you?";
-    }
-
-    /**
-     * Displays the goodbye message when the application terminates.
-     */
-    public String exit() {
-        return "Bye. Hope to see you again soon!";
     }
 
     /**

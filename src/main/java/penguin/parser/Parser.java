@@ -105,7 +105,6 @@ public class Parser {
         String args = inputs.length > 1 ? inputs[1] : "";
 
         switch (action) {
-            // Todo: handle exit command
         case "list":
             return command.listTasks(); // List all tasks if user types "list"
         case "mark": {

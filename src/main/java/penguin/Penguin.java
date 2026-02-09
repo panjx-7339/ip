@@ -24,6 +24,7 @@ public class Penguin {
     private Ui ui;
     private Parser parser;
     private Path filePath;
+    private boolean loadedTasksExist;
 
     /**
      * Constructs a {@code Penguin} application instance.
@@ -37,17 +38,26 @@ public class Penguin {
     public Penguin(Path filePath) {
         ui = new Ui();
         this.filePath = filePath;
-        loadTasks();
+        loadedTasksExist = loadTasks();
         Command command = new Command(taskList, storage);
         parser = new Parser(command);
     }
 
+    /**
+     * Shows welcome message upon starting the application.
+     * @return the welcome message string
+     */
     public String welcome() {
         return ui.start();
     }
 
+    /**
+     * Shows the list of tasks loaded from disk if the file exists.
+     * Else, displays message that new task list has been created.
+     * @return the confirmation message that tasks have been initialised
+     */
     public String showLoadedTasks() {
-        if (loadTasks()) {
+        if (loadedTasksExist) {
             return ui.echo("I've loaded your task list from the previous session.");
         }
         return ui.echo("I've created a new task list.");
@@ -65,26 +75,11 @@ public class Penguin {
         }
     }
 
-    private void run() {
-        Scanner sc = new Scanner(System.in);
-        String input;
-
-        while (true) {
-            try {
-                input = sc.nextLine().trim();
-                // Exit conversation if user types the command "bye"
-                if (input.equals("bye")) {
-                    ui.exit();
-                    break;
-                }
-                parser.parseUserInput(input);
-            } catch (Exception e) {
-                ui.echo(e.getMessage());
-            }
-        }
-        sc.close();
-    }
-
+    /**
+     * Parses the user input to check if it is a valid command and responds accordingly.
+     * @param input the user input
+     * @return the response message to user input
+     */
     public String respond(String input) {
         try {
             return parser.parseUserInput(input);
