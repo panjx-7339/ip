@@ -40,10 +40,10 @@ public class Command {
      * @param t the task to be added
      * @throws PenguinException if an error occurs while saving task data
      */
-    public void addTask(Task t) throws PenguinException {
+    public String addTask(Task t) throws PenguinException {
         taskList.addTask(t);
-        ui.showTaskAdded(t, taskList);
         storage.saveData(taskList);
+        return ui.showTaskAdded(t, taskList);
     }
 
     /**
@@ -53,17 +53,17 @@ public class Command {
      * @param index the index of the task to be removed
      * @throws PenguinException if the index is invalid or saving fails
      */
-    public void removeTask(int index) throws PenguinException {
+    public String removeTask(int index) throws PenguinException {
         Task t = taskList.removeTask(index);
-        ui.showTaskRemoved(t, taskList);
         storage.saveData(taskList);
+        return ui.showTaskRemoved(t, taskList);
     }
 
     /**
      * Displays all tasks currently in the task list.
      */
-    public void listTasks() {
-        ui.showTaskList(taskList);
+    public String listTasks() {
+        return ui.showTaskList(taskList);
     }
 
     /**
@@ -73,10 +73,10 @@ public class Command {
      * @param index the index of the task to be marked
      * @throws PenguinException if the index is invalid or saving fails
      */
-    public void markTask(int index) throws PenguinException {
+    public String markTask(int index) throws PenguinException {
         Task t = taskList.markTask(index);
-        ui.showTaskMarked(t);
         storage.saveData(taskList);
+        return ui.showTaskMarked(t);
     }
 
     /**
@@ -86,10 +86,10 @@ public class Command {
      * @param index the index of the task to be unmarked
      * @throws PenguinException if the index is invalid or saving fails
      */
-    public void unmarkTask(int index) throws PenguinException {
+    public String unmarkTask(int index) throws PenguinException {
         Task t = taskList.unmarkTask(index);
-        ui.showTaskUnmarked(t);
         storage.saveData(taskList);
+        return ui.showTaskUnmarked(t);
     }
 
     /**
@@ -97,13 +97,13 @@ public class Command {
      * the specified keyword(s)
      * @param keyword the keyword present in the desired task
      */
-    public void findTasks(String keyword) {
+    public String findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task t : taskList.getTasks()) {
             if (t.getDescription().contains(keyword)) {
                 matchingTasks.add(t);
             }
         }
-        ui.showMatchingTasks(new TaskList(matchingTasks));
+        return ui.showMatchingTasks(new TaskList(matchingTasks));
     }
 }

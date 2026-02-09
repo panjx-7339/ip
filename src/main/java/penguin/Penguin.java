@@ -1,7 +1,6 @@
 package penguin;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,6 +23,8 @@ public class Penguin {
     private TaskList taskList;
     private Ui ui;
     private Parser parser;
+    private Path filePath;
+    private boolean loadedTasksExist;
 
     /**
      * Constructs a {@code Penguin} application instance.
@@ -36,54 +37,54 @@ public class Penguin {
      */
     public Penguin(Path filePath) {
         ui = new Ui();
-        ui.start();
-        loadTasks(filePath);
-
+        this.filePath = filePath;
+        loadedTasksExist = loadTasks();
         Command command = new Command(taskList, storage);
         parser = new Parser(command);
     }
 
-    private void loadTasks(Path filePath) {
+    /**
+     * Shows welcome message upon starting the application.
+     * @return the welcome message string
+     */
+    public String welcome() {
+        return ui.start();
+    }
+
+    /**
+     * Shows the list of tasks loaded from disk if the file exists.
+     * Else, displays message that new task list has been created.
+     * @return the confirmation message that tasks have been initialised
+     */
+    public String showLoadedTasks() {
+        if (loadedTasksExist) {
+            return ui.echo("I've loaded your task list from the previous session.");
+        }
+        return ui.echo("I've created a new task list.");
+    }
+
+    private boolean loadTasks() {
         storage = new Storage(filePath);
         try {
             ArrayList<Task> loadedTasks = storage.loadData();
             taskList = new TaskList(loadedTasks);
-            ui.echo("Loaded task list from file.");
+            return true;
         } catch (PenguinException e) {
-            ui.echo(e.getMessage() + "\nInitialising new list.");
             taskList = new TaskList();
+            return false;
         }
-    }
-
-    private void run() {
-        Scanner sc = new Scanner(System.in);
-        String input;
-
-        while (true) {
-            try {
-                input = sc.nextLine().trim();
-                // Exit conversation if user types the command "bye"
-                if (input.equals("bye")) {
-                    ui.exit();
-                    break;
-                }
-                parser.parseUserInput(input);
-            } catch (Exception e) {
-                ui.echo(e.getMessage());
-            }
-        }
-        sc.close();
     }
 
     /**
-     * The main entry point of the Penguin application.
-     * <p>
-     * This method creates a {@code Penguin} instance using the default
-     * data file location and starts the application.
-     *
-     * @param args command-line arguments (not used)
+     * Parses the user input to check if it is a valid command and responds accordingly.
+     * @param input the user input
+     * @return the response message to user input
      */
-    public static void main(String[] args) {
-        new Penguin(Paths.get("data", "Penguin.txt")).run();
+    public String respond(String input) {
+        try {
+            return parser.parseUserInput(input);
+        } catch (Exception e) {
+            return ui.echo(e.getMessage());
+        }
     }
 }

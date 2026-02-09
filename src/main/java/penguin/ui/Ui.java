@@ -10,50 +10,20 @@ import penguin.task.TaskList;
  * and application status updates to the user via standard output.
  */
 public class Ui {
-    private final String DIVIDER = "____________________________________________________";
-
     /**
      * Displays a message to the user surrounded by dividers.
      *
      * @param s the message to be displayed
      */
-    public void echo(String s) {
-        System.out.println(DIVIDER);
-        System.out.println(s);
-        System.out.println(DIVIDER + "\n");
+    public String echo(String s) {
+        return s;
     }
 
     /**
-     * Displays the welcome message and application logo.
+     * Displays the welcome message.
      */
-    public void start() {
-        String logo = """
-                ⠀⠀⠀⠀⠀⠀⠀⣠⣠⣶⣿⣷⣿⣿⣿⣷⣷⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⣤⣾⣿⢿⣻⡽⣞⣳⡽⠚⠉⠉⠙⠛⢿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⣼⣿⣿⢻⣟⣧⢿⣻⢿⠀⠀⠀⠀⠀⠀⠀⠻⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⢀⣾⣿⡿⠞⠛⠚⠫⣟⡿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠘⢿⣧⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⣼⣿⡟⠀⠀⠀⠀⠀⠈⢻⡽⣆⠀⠀⣴⣿⣿⡇⠀⠀⠘⣿⡆⡀⠀⣀⣠⣤⡄
-                ⠀⠀⣿⣿⠁⠀⠀⠀⠀⠀⠀⠈⣿⠿⢷⡀⢸⣿⣯⣷⠠⠀⠀⣿⣅⣴⡶⠟⠋⢹⣿
-                ⠀⠀⢻⣿⡀⠀⠀⠀⣾⣿⡿⡆⢿⣴⣴⡇⠀⠀⠉⠁⠀⠀⢠⡟⠋⠁⠀⠀⠀⢸⣿
-                ⠀⠀⠈⢿⣇⠀⠀⠐⣿⣿⡷⡆⠀⠉⠉⠀⠀⠀⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⣾⡏
-                ⠀⠀⠀⠈⢿⣦⡀⠀⠉⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠸⠁⠀⠀⠀⠀⠀⣼⡟⠀
-                ⠀⠀⠀⠀⠀⣹⣿⣶⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠁⠀⠐⢧⡀⠀⢀⣾⠟⠀⠀
-                ⠀⠀⢀⣰⣾⠟⠉⠀⠀⠉⠉⠀⠐⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣶⡟⠋⠀⠀⠀
-                ⣠⣶⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⢈⣿⡆⠀⠀⠀⠀
-                ⢻⣧⣄⠀⠀⠀⣰⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀
-                ⠀⠉⠛⠿⣷⣶⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣾⣿⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣷⣦⡀⠀⢀⣀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣷⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠻⢿⣿⣿⣿⣿⠿⠿⣿⡿⠿⠿⠿⠿⣿⣿⣿⠿⠟⠁⠀⠀⠀⠀""";
-
-        echo("Hello! I'm Penguin, your personal task tracker.\n" + logo + "\nWhat can I do for you?");
-    }
-
-    /**
-     * Displays the goodbye message when the application terminates.
-     */
-    public void exit() {
-        echo("Bye. Hope to see you again soon!");
+    public String start() {
+        return "Hello! I'm Penguin, your personal task tracker. What can I do for you?";
     }
 
     /**
@@ -62,9 +32,9 @@ public class Ui {
      * @param t the task that was added
      * @param taskList the updated task list
      */
-    public void showTaskAdded(Task t, TaskList taskList) {
-        echo("Got it. I've added this task:\n\t" + t + "\nNow you have " + taskList.getSize()
-                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.");
+    public String showTaskAdded(Task t, TaskList taskList) {
+        return "Got it. I've added this task:\n\t" + t + "\nNow you have " + taskList.getSize()
+                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.";
     }
 
     /**
@@ -73,9 +43,9 @@ public class Ui {
      * @param t the task that was removed
      * @param taskList the updated task list
      */
-    public void showTaskRemoved(Task t, TaskList taskList) {
-        echo("Noted. I've removed this task:\n\t" + t + "\nNow you have " + taskList.getSize()
-                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.");
+    public String showTaskRemoved(Task t, TaskList taskList) {
+        return "Noted. I've removed this task:\n\t" + t + "\nNow you have " + taskList.getSize()
+                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.";
     }
 
     /**
@@ -83,8 +53,8 @@ public class Ui {
      *
      * @param taskList the task list to be displayed
      */
-    public void showTaskList(TaskList taskList) {
-        echo("Here are the tasks in your list:\n" + taskList);
+    public String showTaskList(TaskList taskList) {
+        return "Here are the tasks in your list:\n" + taskList;
     }
 
     /**
@@ -92,8 +62,8 @@ public class Ui {
      *
      * @param t the task that was marked as completed
      */
-    public void showTaskMarked(Task t) {
-        echo("Nice! I've marked this task as done:\n\t" + t);
+    public String showTaskMarked(Task t) {
+        return "Nice! I've marked this task as done:\n\t" + t;
     }
 
     /**
@@ -101,11 +71,11 @@ public class Ui {
      *
      * @param t the task that was marked as not completed
      */
-    public void showTaskUnmarked(Task t) {
-        echo("OK, I've marked this task as not done yet:\n\t" + t);
+    public String showTaskUnmarked(Task t) {
+        return "OK, I've marked this task as not done yet:\n\t" + t;
     }
 
-    public void showMatchingTasks(TaskList matchingTasks) {
-        echo("Here are the matching tasks in your list:\n" + matchingTasks);
+    public String showMatchingTasks(TaskList matchingTasks) {
+        return "Here are the matching tasks in your list:\n" + matchingTasks;
     }
 }
