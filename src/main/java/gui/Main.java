@@ -17,7 +17,6 @@ import penguin.Penguin;
 public class Main extends Application {
     private Penguin penguin = new Penguin(Paths.get("data", "Penguin.txt"));
 
-    // Todo: show welcome and load tasks
     @Override
     public void start(Stage stage) {
         try {
@@ -32,27 +31,5 @@ public class Main extends Application {
         }
     }
 }
-//    /**
-//     * Creates a dialog box containing user input, and appends it to
-//     * the dialog container. Clears the user input after processing.
-//     */
-//    private void handleUserInput() {
-//        String userText = userInput.getText();
-//        // Quit application if user types "exit"
-//        if (userText.equals("exit")) {
-//            Platform.exit();
-//        }
-//        String penguinText = penguin.respond(userInput.getText());
-//        dialogContainer.getChildren().addAll(
-//                DialogBox.getUserDialog(userText, userImage),
-//                DialogBox.getPenguinDialog(penguinText, penguinImage)
-//        );
-//        userInput.clear();
-//    }
-    //        // Show welcome message and loaded tasks
-//        dialogContainer.getChildren().addAll(
-//                DialogBox.getPenguinDialog(penguin.welcome(), penguinImage),
-//                DialogBox.getPenguinDialog(penguin.showLoadedTasks(), penguinImage)
-//        );
 
 
