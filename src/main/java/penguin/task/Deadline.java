@@ -48,13 +48,15 @@ public class Deadline extends Task {
      * @throws PenguinException if the deadline string is incorrectly formatted
      */
     private void parseBy(String byString) throws PenguinException {
-        String[] details = byString.split(" ");
+        String[] details = byString.split("\\s+");
+        // Details should include both date and time
+        assert details.length == 2;
         try {
-            // Date is in yyyy-mm-dd format
+            // Date should be in yyyy-mm-dd format
             String dateString = details[0];
             LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            // Time is in HHmm format
+            // Time should be in HHmm format
             String timeString = details[1];
             LocalTime time = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HHmm"));
             by = LocalDateTime.of(date, time);
