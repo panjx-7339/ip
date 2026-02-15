@@ -65,9 +65,10 @@ public class Parser {
     }
 
     private String prepareTodo(String args) throws PenguinException {
+        String description = args.trim();
         // Check that fields are not empty
-        validateArgsNotEmpty(args, "The description of a todo task cannot be empty!");
-        return command.addTask(new ToDo(args));
+        validateArgsNotEmpty(description, "The description of a todo task cannot be empty!");
+        return command.addTask(new ToDo(description));
     }
 
 

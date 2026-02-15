@@ -1,6 +1,7 @@
 package penguin.commands;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import penguin.exception.PenguinException;
@@ -35,6 +36,14 @@ public class Command {
         this.storage = storage;
     }
 
+    private void checkDuplicates(Task newTask) throws PenguinException {
+        for (Task t : taskList.getTasks()) {
+            if (Objects.equals(t.getDescription(), newTask.getDescription())) {
+                throw new PenguinException("A task with this name already exists!");
+            }
+        }
+    }
+
     /**
      * Adds a task to the task list and saves the updated list to storage.
      *
@@ -42,6 +51,7 @@ public class Command {
      * @throws PenguinException if an error occurs while saving task data
      */
     public String addTask(Task t) throws PenguinException {
+        checkDuplicates(t);
         taskList.addTask(t);
         storage.saveData(taskList);
         return ui.showTaskAdded(t, taskList);
