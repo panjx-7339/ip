@@ -1,2 +1,1 @@
-T | 0 | buy bread
-E | 0 | meeting | 3pm | 6pm
+D | 1 |  | 1 Jan 2024 2pm
