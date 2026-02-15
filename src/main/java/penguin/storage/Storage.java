@@ -109,6 +109,8 @@ public class Storage {
             return taskType + " | " + isDone + " | " + description + " | " + ((Event) t).getFrom() + " | "
                     + ((Event) t).getTo();
         }
+        // Execution should not reach this point
+        assert false : "encode: task added is of invalid type";
         return "";
     }
 
@@ -155,7 +157,7 @@ public class Storage {
                 return t;
             }
             default:
-                return null;
+                throw new PenguinException("Invalid task cannot be decoded.");
             }
         } catch (Exception e) {
             throw new PenguinException("Error parsing line!");

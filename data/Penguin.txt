@@ -1,2 +1,1 @@
-E | 0 | project meeting | Mon 12pm | Mon 1pm
-D | 0 | buy bread | 5 Feb 2026 2pm
+D | 1 |  | 1 Jan 2024 2pm

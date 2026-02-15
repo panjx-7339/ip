@@ -2,7 +2,6 @@ package penguin;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import penguin.commands.Command;
 import penguin.exception.PenguinException;
@@ -70,6 +69,7 @@ public class Penguin {
             taskList = new TaskList(loadedTasks);
             return true;
         } catch (PenguinException e) {
+            System.out.println(e.getMessage());
             taskList = new TaskList();
             return false;
         }
