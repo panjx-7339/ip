@@ -6,7 +6,7 @@ package penguin.task;
  * It serves as the base class for all specific task types and
  * stores common attributes such as description and completion status.
  */
-public class Task {
+public abstract class Task {
     private String description;
     private boolean isDone;
 
@@ -60,6 +60,8 @@ public class Task {
     public void markUndone() {
         isDone = false;
     }
+
+    public abstract String encode();
 
     /**
      * Returns the string representation of this task.
