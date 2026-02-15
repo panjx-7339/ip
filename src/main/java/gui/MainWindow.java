@@ -51,9 +51,8 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String userText = userInput.getText();
-        // Quit application if user types "bye"
         if (userText.equals("bye")) {
-            Platform.exit();
+            Platform.exit(); // Quit application
         }
         String penguinText = penguin.respond(userInput.getText());
         dialogContainer.getChildren().addAll(

@@ -45,18 +45,24 @@ public class Storage {
      * @throws PenguinException if an I/O error occurs while saving data
      */
     public void saveData(TaskList tasks) throws PenguinException {
-        // Save list of tasks to /data/Penguin.txt
         try {
-            // Create directory if it does not exist
-            Files.createDirectories(filePath.getParent());
-            try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
-                for (Task t : tasks.getTasks()) {
-                    writer.write(encode(t));
-                    writer.newLine();
-                }
-            }
+            createDirectoryIfNeeded();
+            writeTasks(tasks);
         } catch (IOException e) {
             throw new PenguinException("Error saving data to disk!" + e.getMessage());
+        }
+    }
+
+    private void createDirectoryIfNeeded() throws IOException {
+        Files.createDirectories(filePath.getParent());
+    }
+
+    private void writeTasks(TaskList tasks) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
+            for (Task t : tasks.getTasks()) {
+                writer.write(encode(t));
+                writer.newLine();
+            }
         }
     }
 
@@ -71,12 +77,15 @@ public class Storage {
      *                          occurs while loading data
      */
     public ArrayList<Task> loadData() throws PenguinException {
-        // Create new list if data file does not exist
         if (!Files.exists(filePath)) {
             throw new PenguinException("File does not exist.");
         }
-        ArrayList<Task> tasks = new ArrayList<>();
+        return parseTasks();
+    }
+
+    private ArrayList<Task> parseTasks() throws PenguinException {
         try {
+            ArrayList<Task> tasks = new ArrayList<>();
             List<String> lines = Files.readAllLines(filePath);
 
             for (String line : lines) {
@@ -84,6 +93,7 @@ public class Storage {
             }
             return tasks;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new PenguinException("Error loading data from disk!");
         }
     }
@@ -95,21 +105,33 @@ public class Storage {
      * @return a string representation of the task
      */
     private String encode(Task t) {
-        String isDone = t.isDone() ? "1" : "0";
-        String description = t.getDescription();
-        String taskType;
-        if (t instanceof ToDo) {
-            taskType = "T";
-            return taskType + " | " + isDone + " | " + description;
-        } else if (t instanceof Deadline) {
-            taskType = "D";
-            return taskType + " | " + isDone + " | " + description + " | " + ((Deadline) t).getBy();
-        } else if (t instanceof Event) {
-            taskType = "E";
-            return taskType + " | " + isDone + " | " + description + " | " + ((Event) t).getFrom() + " | "
-                    + ((Event) t).getTo();
+        return t.encode();
+    }
+
+    private String formatDeadline(String by) {
+        // Convert deadline to correct format
+        LocalDateTime dateTime = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("d MMM yyyy ha"));
+        return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+    }
+
+    private Task createTask(String taskType, String description, String[] parts) throws PenguinException {
+        switch (taskType) {
+        case "T": {
+            return new ToDo(description);
+
         }
-        return "";
+        case "D": {
+            String by = parts[3];
+            return new Deadline(description, formatDeadline(by));
+        }
+        case "E": {
+            String from = parts[3];
+            String to = parts[4];
+            return new Event(description, from, to);
+        }
+        default:
+            throw new PenguinException("Unknown task type");
+        }
     }
 
     /**
@@ -123,42 +145,21 @@ public class Storage {
         try {
             String[] parts = line.split(" \\| ");
 
+            // Parse relevant fields
             String taskType = parts[0];
             boolean isDone = Objects.equals(parts[1], "1");
             String description = parts[2];
-            switch (taskType) {
-            case "T": {
-                Task t = new ToDo(description);
-                if (isDone) {
-                    t.markDone();
-                }
-                return t;
+
+            Task t = createTask(taskType, description, parts);
+            if (isDone) {
+                t.markDone();
             }
-            case "D": {
-                String by = parts[3];
-                // Change by string to correct LocalDateTime format
-                LocalDateTime dateTime = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("d MMM yyyy ha"));
-                by = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
-                Task t = new Deadline(description, by);
-                if (isDone) {
-                    t.markDone();
-                }
-                return t;
-            }
-            case "E": {
-                String from = parts[3];
-                String to = parts[4];
-                Task t = new Event(description, from, to);
-                if (isDone) {
-                    t.markDone();
-                }
-                return t;
-            }
-            default:
-                return null;
-            }
+
+            return t;
         } catch (Exception e) {
-            throw new PenguinException("Error parsing line!");
+            String msg = "Error parsing line: " + e.getMessage();
+            System.out.println(msg);
+            throw new PenguinException(msg);
         }
     }
 }

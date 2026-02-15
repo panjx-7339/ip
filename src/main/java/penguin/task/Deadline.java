@@ -48,7 +48,7 @@ public class Deadline extends Task {
      * @throws PenguinException if the deadline string is incorrectly formatted
      */
     private void parseBy(String byString) throws PenguinException {
-        String[] details = byString.split(" ");
+        String[] details = byString.split("\\s+");
         try {
             // Date is in yyyy-mm-dd format
             String dateString = details[0];
@@ -61,6 +61,15 @@ public class Deadline extends Task {
         } catch (Exception e) {
             throw new PenguinException("Deadline given is incorrectly formatted!");
         }
+    }
+
+    /**
+     * Encodes the task into a string representation suitable for storage.
+     * @return the encoded string representation of the task
+     */
+    public String encode() {
+        String isDone = isDone() ? "1" : "0";
+        return "D" + " | " + isDone + " | " + getDescription() + " | " + getBy();
     }
 
     /**

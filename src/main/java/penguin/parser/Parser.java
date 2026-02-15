@@ -16,6 +16,11 @@ import penguin.task.ToDo;
 public class Parser {
     private Command command;
 
+    @FunctionalInterface
+    private interface IndexedCommand {
+        String execute(int index) throws PenguinException;
+    }
+
     /**
      * Constructs a {@code Parser} with the given command handler.
      *
@@ -32,58 +37,76 @@ public class Parser {
         return Integer.parseInt(args) - 1;
     }
 
-    private String prepareMark(String args) throws PenguinException {
+    private String handleIndexedCommand(String args, IndexedCommand action) throws PenguinException {
         int index = parseIndex(args);
-        return command.markTask(index);
+        return action.execute(index);
     }
 
-    private String prepareUnmark(String args) throws PenguinException {
-        int index = parseIndex(args);
-        return command.unmarkTask(index);
+    private void validateContainsDelimiter(String input, String delimiter, String errorMessage)
+            throws PenguinException {
+        if (!input.contains(delimiter)) {
+            throw new PenguinException(errorMessage);
+        }
     }
 
-    private String prepareRemove(String args) throws PenguinException {
-        int index = parseIndex(args);
-        return command.removeTask(index);
+    private void validateArgsNotEmpty(String value, String errorMessage) throws PenguinException {
+        if (value.isEmpty()) {
+            throw new PenguinException(errorMessage);
+        }
+    }
+
+    private String[] splitAndValidate(String input, String delimiter, String errorMessage)
+            throws PenguinException {
+        String[] parts = input.split(delimiter);
+        if (parts.length < 2) {
+            throw new PenguinException(errorMessage);
+        }
+        return parts;
     }
 
     private String prepareTodo(String args) throws PenguinException {
-        if (args.isEmpty()) {
-            throw new PenguinException("The description of a todo task cannot be empty!");
-        }
+        // Check that fields are not empty
+        validateArgsNotEmpty(args, "The description of a todo task cannot be empty!");
         return command.addTask(new ToDo(args));
     }
 
+
     private String prepareDeadline(String args) throws PenguinException {
-        if (args.isEmpty()) {
-            throw new PenguinException("The description of a deadline task cannot be empty!");
-        }
+        validateContainsDelimiter(args, "/by", "Deadline task must include '/by' delimiter!");
 
-        String[] bySplit = args.split("/by ");
+        // Parse relevant fields
+        String[] bySplit = splitAndValidate(args, "/by", "The date and time deadline cannot be empty!");
         String description = bySplit[0].trim();
-        String by = bySplit[1].trim();
+        String deadline = bySplit[1].trim();
 
-        return command.addTask(new Deadline(description, by));
+        // Check that fields are not empty
+        validateArgsNotEmpty(bySplit[0].trim(), "The description of a deadline task cannot be empty!");
+        validateArgsNotEmpty(bySplit[1].trim(), "The date and time deadline cannot be empty!");
+
+        return command.addTask(new Deadline(description, deadline));
     }
 
     private String prepareEvent(String args) throws PenguinException {
-        if (args.isEmpty()) {
-            throw new PenguinException("The description of an event task cannot be empty!");
-        }
+        validateContainsDelimiter(args, "/from", "Event task must include '/from' delimiter!");
+        validateContainsDelimiter(args, "/to", "Event task must include '/to' delimiter!");
 
-        String[] fromSplit = args.split("/from ");
+        // Parse relevant fields
+        String[] fromSplit = splitAndValidate(args, "/from", "The start time (/from) cannot be empty!");
         String description = fromSplit[0].trim();
-        String[] toSplit = fromSplit[1].split("/to ");
-        String from = toSplit[0].trim();
-        String to = toSplit[1].trim();
+        String[] toSplit = splitAndValidate(fromSplit[1], "/to", "The end time (/to) cannot be empty!");
+        String fromTime = toSplit[0].trim();
+        String toTime = toSplit[1].trim();
 
-        return command.addTask(new Event(description, from, to));
+        // Check that fields are not empty
+        validateArgsNotEmpty(description, "The description of an event task cannot be empty!");
+        validateArgsNotEmpty(fromTime, "The start time (/from) cannot be empty!");
+        validateArgsNotEmpty(toTime, "The end time (/to) cannot be empty!");
+
+        return command.addTask(new Event(description, fromTime, toTime));
     }
 
     private String prepareFind(String args) throws PenguinException {
-        if (args.isEmpty()) {
-            throw new PenguinException("Please enter a task keyword!");
-        }
+        validateArgsNotEmpty(args, "Please enter a task keyword!");
         return command.findTasks(args);
     }
 
@@ -104,34 +127,16 @@ public class Parser {
 
         String args = inputs.length > 1 ? inputs[1] : "";
 
-        switch (action) {
-        case "list":
-            return command.listTasks(); // List all tasks if user types "list"
-        case "mark": {
-            return prepareMark(args); // Mark task as done if user types "mark"
-        }
-        case "unmark": {
-            return prepareUnmark(args); // Mark task as undone if user types "unmark"
-        }
-        case "delete": {
-            return prepareRemove(args);
-        }
-        case "todo": {
-            return prepareTodo(args);
-        }
-        case "deadline": {
-            return prepareDeadline(args);
-        }
-        case "event": {
-            return prepareEvent(args);
-        }
-        case "find": {
-            return prepareFind(args);
-        }
-        default:
-            throw new PenguinException("Please enter a valid command!");
-        }
+        return switch (action) {
+        case "list" -> command.listTasks();
+        case "mark" -> handleIndexedCommand(args, command::markTask);
+        case "unmark" -> handleIndexedCommand(args, command::unmarkTask);
+        case "delete" -> handleIndexedCommand(args, command::removeTask);
+        case "todo" -> prepareTodo(args);
+        case "deadline" -> prepareDeadline(args);
+        case "event" -> prepareEvent(args);
+        case "find" -> prepareFind(args);
+        default -> throw new PenguinException("Please enter a valid command!");
+        };
     }
 }
-
-
