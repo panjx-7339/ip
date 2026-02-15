@@ -1,6 +1,7 @@
 package penguin.commands;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import penguin.exception.PenguinException;
 import penguin.storage.Storage;
@@ -98,12 +99,10 @@ public class Command {
      * @param keyword the keyword present in the desired task
      */
     public String findTasks(String keyword) {
-        ArrayList<Task> matchingTasks = new ArrayList<>();
-        for (Task t : taskList.getTasks()) {
-            if (t.getDescription().contains(keyword)) {
-                matchingTasks.add(t);
-            }
-        }
+        ArrayList<Task> matchingTasks = taskList.getTasks().stream()
+                .filter(t -> t.getDescription().contains(keyword))
+                .collect(Collectors.toCollection(ArrayList::new));
+
         return ui.showMatchingTasks(new TaskList(matchingTasks));
     }
 }
