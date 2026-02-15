@@ -6,8 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import penguin.exception.PenguinException;
@@ -110,7 +112,11 @@ public class Storage {
 
     private String formatDeadline(String by) {
         // Convert deadline to correct format
-        LocalDateTime dateTime = LocalDateTime.parse(by, DateTimeFormatter.ofPattern("d MMM yyyy ha"));
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .appendPattern("d MMM yyyy ha")
+                .toFormatter(Locale.ENGLISH);
+        LocalDateTime dateTime = LocalDateTime.parse(by, formatter);
         return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
     }
 
