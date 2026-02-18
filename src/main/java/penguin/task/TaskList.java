@@ -86,7 +86,7 @@ public class TaskList {
      */
     public void checkTaskExists(int index) throws PenguinException {
         if (index < 0 || index >= tasks.size()) {
-            throw new PenguinException("This task does not exist in my list!");
+            throw new PenguinException("Noot noot <(`^´)>! This task does not exist in my list.");
         }
     }
 

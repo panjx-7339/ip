@@ -32,7 +32,7 @@ public class Parser {
 
     private int parseIndex(String args) throws PenguinException {
         if (!args.matches("\\d+")) {
-            throw new PenguinException("Please enter a valid number!");
+            throw new PenguinException("Noot noot <(`^´)>! Please enter a number corresponding to a task~");
         }
         return Integer.parseInt(args) - 1;
     }
@@ -73,41 +73,45 @@ public class Parser {
 
 
     private String prepareDeadline(String args) throws PenguinException {
-        validateContainsDelimiter(args, "/by", "Deadline task must include '/by' delimiter!");
+        validateContainsDelimiter(args, "/by", "Noot noot <(`^´)>! Deadline task must include '/by' delimiter.");
 
         // Parse relevant fields
-        String[] bySplit = splitAndValidate(args, "/by", "The date and time deadline cannot be empty!");
+        String[] bySplit = splitAndValidate(args, "/by", "Noot noot <(`^´)>! "
+                + "Please include a date and time deadline~");
         String description = bySplit[0].trim();
         String deadline = bySplit[1].trim();
 
         // Check that fields are not empty
-        validateArgsNotEmpty(bySplit[0].trim(), "The description of a deadline task cannot be empty!");
-        validateArgsNotEmpty(bySplit[1].trim(), "The date and time deadline cannot be empty!");
+        validateArgsNotEmpty(bySplit[0].trim(), "Noot noot <(`^´)>! The description of a "
+                + "deadline task cannot be empty.");
+        validateArgsNotEmpty(bySplit[1].trim(), "Noot noot <(`^´)>! The date and time deadline "
+                + "cannot be empty!");
 
         return command.addTask(new Deadline(description, deadline));
     }
 
     private String prepareEvent(String args) throws PenguinException {
-        validateContainsDelimiter(args, "/from", "Event task must include '/from' delimiter!");
-        validateContainsDelimiter(args, "/to", "Event task must include '/to' delimiter!");
+        validateContainsDelimiter(args, "/from", "Noot noot <(`^´)>! Event task must include '/from' delimiter.");
+        validateContainsDelimiter(args, "/to", "Noot noot <(`^´)>! Event task must include '/to' delimiter.");
 
         // Parse relevant fields
-        String[] fromSplit = splitAndValidate(args, "/from", "The start time (/from) cannot be empty!");
+        String[] fromSplit = splitAndValidate(args, "/from", "Noot noot <(`^´)>! Please include a start time (/from)~");
         String description = fromSplit[0].trim();
-        String[] toSplit = splitAndValidate(fromSplit[1], "/to", "The end time (/to) cannot be empty!");
+        String[] toSplit = splitAndValidate(fromSplit[1], "/to", "Noot noot <(`^´)>! Please include "
+                + "an end time (/to)~");
         String fromTime = toSplit[0].trim();
         String toTime = toSplit[1].trim();
 
         // Check that fields are not empty
-        validateArgsNotEmpty(description, "The description of an event task cannot be empty!");
-        validateArgsNotEmpty(fromTime, "The start time (/from) cannot be empty!");
-        validateArgsNotEmpty(toTime, "The end time (/to) cannot be empty!");
+        validateArgsNotEmpty(description, "Noot noot <(`^´)>! The description of an event task cannot be empty.");
+        validateArgsNotEmpty(fromTime, "Noot noot <(`^´)>! Please include a start time (/from)~");
+        validateArgsNotEmpty(toTime, "Noot noot <(`^´)>! Please include an end time (/to)~");
 
         return command.addTask(new Event(description, fromTime, toTime));
     }
 
     private String prepareFind(String args) throws PenguinException {
-        validateArgsNotEmpty(args, "Please enter a task keyword!");
+        validateArgsNotEmpty(args, "Noot noot <(`^´)>! Please enter a task keyword~");
         return command.findTasks(args);
     }
 
@@ -137,7 +141,7 @@ public class Parser {
         case "deadline" -> prepareDeadline(args);
         case "event" -> prepareEvent(args);
         case "find" -> prepareFind(args);
-        default -> throw new PenguinException("Please enter a valid command!");
+        default -> throw new PenguinException("Noot noot <(`^´)>! Please enter a valid command~");
         };
     }
 }
