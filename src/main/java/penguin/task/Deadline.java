@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+import java.util.Locale;
 
 import penguin.exception.PenguinException;
 
@@ -40,7 +41,7 @@ public class Deadline extends Task {
      */
     public String getBy() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy ha");
-        return by.format(formatter);
+        return by.format(formatter).toUpperCase(Locale.ENGLISH);
     }
 
 
