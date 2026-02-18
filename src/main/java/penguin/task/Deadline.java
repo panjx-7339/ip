@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 
 import penguin.exception.PenguinException;
 
@@ -41,6 +42,7 @@ public class Deadline extends Task {
         return by.format(formatter);
     }
 
+
     /**
      * Parses the deadline string and converts it into a {@link LocalDateTime}.
      *
@@ -49,12 +51,12 @@ public class Deadline extends Task {
      */
     private void parseBy(String byString) throws PenguinException {
         String[] details = byString.split("\\s+");
-        // Details should include both date and time
-        assert details.length == 2;
         try {
             // Date should be in yyyy-mm-dd format
             String dateString = details[0];
-            LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    .withResolverStyle(ResolverStyle.STRICT); // Ensure strict validation of dates
+            LocalDate date = LocalDate.parse(dateString, formatter);
 
             // Time should be in HHmm format
             String timeString = details[1];
