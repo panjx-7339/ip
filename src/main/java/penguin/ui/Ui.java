@@ -34,7 +34,7 @@ public class Ui {
      */
     public String showTaskAdded(Task t, TaskList taskList) {
         return "Got it. I've added this task:\n\t" + t + "\nNow you have " + taskList.getSize()
-                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.";
+                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list cheep!";
     }
 
     /**
@@ -44,8 +44,8 @@ public class Ui {
      * @param taskList the updated task list
      */
     public String showTaskRemoved(Task t, TaskList taskList) {
-        return "Noted. I've removed this task:\n\t" + t + "\nNow you have " + taskList.getSize()
-                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list.";
+        return "Got it. I've removed this task:\n\t" + t + "\nNow you have " + taskList.getSize()
+                + (taskList.getSize() > 1 ? " tasks" : " task") + " in the list cheep!";
     }
 
     /**
@@ -54,7 +54,7 @@ public class Ui {
      * @param taskList the task list to be displayed
      */
     public String showTaskList(TaskList taskList) {
-        return "Here are the tasks in your list:\n" + taskList;
+        return "Here are the tasks in your list cheep!\n" + taskList;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Ui {
      * @param t the task that was marked as completed
      */
     public String showTaskMarked(Task t) {
-        return "Nice! I've marked this task as done:\n\t" + t;
+        return "Got it. I've marked this task as done cheep!\n\t" + t;
     }
 
     /**
@@ -72,10 +72,10 @@ public class Ui {
      * @param t the task that was marked as not completed
      */
     public String showTaskUnmarked(Task t) {
-        return "OK, I've marked this task as not done yet:\n\t" + t;
+        return "Got it. I've marked this task as not done yet cheep!\n\t" + t;
     }
 
     public String showMatchingTasks(TaskList matchingTasks) {
-        return "Here are the matching tasks in your list:\n" + matchingTasks;
+        return "Here are the matching tasks in your list cheep!\n" + matchingTasks;
     }
 }
