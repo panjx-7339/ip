@@ -77,15 +77,14 @@ public class Parser {
 
         // Parse relevant fields
         String[] bySplit = splitAndValidate(args, "/by", "Noot noot <(`^´)>! "
-                + "Please include a date and time deadline~");
+                + "The deadline must have both date and time~");
         String description = bySplit[0].trim();
         String deadline = bySplit[1].trim();
 
         // Check that fields are not empty
         validateArgsNotEmpty(bySplit[0].trim(), "Noot noot <(`^´)>! The description of a "
                 + "deadline task cannot be empty.");
-        validateArgsNotEmpty(bySplit[1].trim(), "Noot noot <(`^´)>! The date and time deadline "
-                + "cannot be empty!");
+        validateArgsNotEmpty(bySplit[1].trim(), "Noot noot <(`^´)>! The deadline must have both date and time~");
 
         return command.addTask(new Deadline(description, deadline));
     }

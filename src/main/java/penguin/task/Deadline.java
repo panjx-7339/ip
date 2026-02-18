@@ -1,10 +1,12 @@
 package penguin.task;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+import java.util.Locale;
 
 import penguin.exception.PenguinException;
 
@@ -39,7 +41,7 @@ public class Deadline extends Task {
      */
     public String getBy() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy ha");
-        return by.format(formatter);
+        return by.format(formatter).toUpperCase(Locale.ENGLISH);
     }
 
 
@@ -54,7 +56,7 @@ public class Deadline extends Task {
         try {
             // Date should be in yyyy-mm-dd format
             String dateString = details[0];
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd")
                     .withResolverStyle(ResolverStyle.STRICT); // Ensure strict validation of dates
             LocalDate date = LocalDate.parse(dateString, formatter);
 
@@ -62,8 +64,10 @@ public class Deadline extends Task {
             String timeString = details[1];
             LocalTime time = LocalTime.parse(timeString, DateTimeFormatter.ofPattern("HHmm"));
             by = LocalDateTime.of(date, time);
-        } catch (Exception e) {
-            throw new PenguinException("Deadline given is incorrectly formatted!");
+        } catch (IndexOutOfBoundsException e) {
+            throw new PenguinException("Noot noot <(`^´)>! The deadline must have both date and time~");
+        } catch (DateTimeException e) {
+            throw new PenguinException("Noot noot <(`^´)>! Deadline given is incorrectly formatted~");
         }
     }
 
