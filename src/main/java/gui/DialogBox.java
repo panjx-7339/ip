@@ -1,7 +1,6 @@
 package gui;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,14 +41,25 @@ public class DialogBox extends HBox {
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
     private void flip() {
-        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
-        Collections.reverse(tmp);
-        getChildren().setAll(tmp);
         setAlignment(Pos.TOP_LEFT);
+        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
+        FXCollections.reverse(tmp);
+        getChildren().setAll(tmp);
+    }
+
+    /**
+     * Sets the dialog box color to the specified color.
+     * @param color The hex color string.
+     */
+    private void setColor(String color) {
+        dialog.setStyle("-fx-text-fill: white; -fx-background-color: " + color + "; -fx-background-radius: 10;"
+                + "-fx-background-radius: 10 10 0 10;" + " -fx-padding: 10;");
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        var db = new DialogBox(text, img);
+        db.setColor("#3faabf");
+        return db;
     }
 
     public static DialogBox getPenguinDialog(String text, Image img) {
