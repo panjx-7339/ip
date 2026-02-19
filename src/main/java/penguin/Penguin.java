@@ -39,7 +39,7 @@ public class Penguin {
         this.filePath = filePath;
         loadedTasksExist = loadTasks();
         Command command = new Command(taskList, storage);
-        parser = new Parser(command);
+        parser = new Parser(command, ui);
     }
 
     /**

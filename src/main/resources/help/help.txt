@@ -1,0 +1,9 @@
+todo: add a todo task e.g. todo homework
+deadline: add a deadline task e.g. deadline return book /by 20-05-2026 1500
+event: add an event task e.g. event project meeting /from Mon /to Wed
+list: list all tasks
+mark <number>: mark a task as done
+unmark <number>: unmark a task as done
+delete <number>: delete a task
+find <keywords>: find one or more tasks e.g. find return book
+bye: quit the application

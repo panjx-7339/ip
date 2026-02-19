@@ -1,5 +1,10 @@
 package penguin.ui;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.nio.file.Paths;
+
+import penguin.exception.PenguinException;
 import penguin.task.Task;
 import penguin.task.TaskList;
 
@@ -75,7 +80,32 @@ public class Ui {
         return "Got it. I've marked this task as not done yet cheep!\n\t" + t;
     }
 
+    /**
+     * Displays a lit of tasks that contain the given keyword(s).
+     * @param matchingTasks the {@link TaskList} containing tasks that match keyword(s) given by the user
+     */
     public String showMatchingTasks(TaskList matchingTasks) {
         return "Here are the matching tasks in your list cheep!\n" + matchingTasks;
+    }
+
+    /**
+     * Displays the user guide for all commands.
+     * @throws PenguinException
+     */
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+    public String showUserGuide() throws PenguinException {
+        try {
+            try (BufferedReader br = new BufferedReader(new FileReader(
+                    Paths.get("src", "main", "resources", "help", "help.txt").toFile()))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                return sb.toString();
+            }
+        } catch (Exception e) {
+            throw new PenguinException("Sorry, the help file couldn't be loaded cheep!");
+        }
     }
 }

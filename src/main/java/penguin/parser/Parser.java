@@ -5,6 +5,7 @@ import penguin.exception.PenguinException;
 import penguin.task.Deadline;
 import penguin.task.Event;
 import penguin.task.ToDo;
+import penguin.ui.Ui;
 
 /**
  * The {@code Parser} class interprets user input and translates it into
@@ -15,6 +16,7 @@ import penguin.task.ToDo;
  */
 public class Parser {
     private Command command;
+    private Ui ui;
 
     @FunctionalInterface
     private interface IndexedCommand {
@@ -26,9 +28,11 @@ public class Parser {
      *
      * @param command the {@code Command} object responsible for executing parsed user commands
      */
-    public Parser(Command command) {
+    public Parser(Command command, Ui ui) {
         this.command = command;
+        this.ui = ui;
     }
+
 
     private int parseIndex(String args) throws PenguinException {
         if (!args.matches("\\d+")) {
@@ -140,6 +144,7 @@ public class Parser {
         case "deadline" -> prepareDeadline(args);
         case "event" -> prepareEvent(args);
         case "find" -> prepareFind(args);
+        case "help" -> ui.showUserGuide();
         default -> throw new PenguinException("Noot noot <(`^´)>! Please enter a valid command~");
         };
     }
