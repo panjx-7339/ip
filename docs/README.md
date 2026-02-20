@@ -132,6 +132,7 @@ bye
 ```
 
 ## 📊 Command Summary Table
+
 | Command  | Format                                        |
 |----------|-----------------------------------------------|
 | todo     | `todo <description>`                          |
