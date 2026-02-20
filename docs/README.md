@@ -124,7 +124,13 @@ Example:
 find return book
 ```
 
-### 9. Exit Application
+### 9. Help
+- Get information about all commands.
+```
+help
+```
+
+### 10. Exit Application
 - Closes Penguin safely
 
 ```
@@ -143,4 +149,5 @@ bye
 | Unmark   | `unmark <index>`                              | `unmark 1`                                        |
 | Find     | `find <keyword>`                              | `find book`                                       |
 | Delete   | `delete <index>`                              | `delete 3`                                        |
+| Help     | `help`                                        | `help`                                            |
 | Exit     | `bye`                                         | `bye`                                             |
