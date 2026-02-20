@@ -1,26 +1,143 @@
-# Duke project template
+# 🐧 Penguin – Task List CLI Application
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+Penguin is a lightweight desktop Command Line Interface (CLI) task manager that helps you keep track of your tasks quickly and efficiently.
 
-## Setting up in Intellij
+It supports todos, deadlines, and events — all managed through simple text commands
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+## 🚀 Getting Started
+### 1. Requirements
+- Java 17 or later installed
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+Check your Java version:
+```
+java -version
+```
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+### 2. Running the Application
+```
+java -jar penguin.jar
+```
+
+After launching, you will see Penguin’s welcome message.
+
+You can now start entering commands.
+
+## 💾 Data Storage
+- Tasks are automatically saved
+- Data persists between sessions.
+- The date file can be found in `Penguin.txt`, as such:
+```
+project-root/
+└── data/
+    └── Penguin.txt
+└── penguin.jar
+```
+- Do not manually modify the data file unless necessary.
+
+## 📌 Features
+- Add Todo tasks 
+- Add Deadline tasks 
+- Add Event tasks 
+- Mark tasks as done / undone 
+- Delete tasks 
+- Find tasks by keyword 
+- Persistent storage (tasks are saved automatically)
+- Simple and fast CLI interaction
+
+## 📖 Command Format
+- Commands are case-sensitive.
+- Words in < > are parameters you provide.
+  - Do not include < > when typing commands.
+
+## 📝 Commands
+### 1. Add a Todo
+- Adds a simple task.
+- Format: `todo <description>`
+
+Example:
+```
+todo homework
+```
+
+### 2. Add a Deadline
+- Adds a task with a deadline.
+- Format: `deadline <description> /by <date time>`
+  - only `yyyy-mm-dd HHmm` accepted for `<date time>`
+
+Example:
+```
+deadline return book /by 20-01-2026 1500
+```
+
+### 3. Add an Event
+- Adds a task with a start and end time.
+- Format: `event <description> /from <start> /to <end>`
+
+Example:
+```
+event project meeting /from Mon /to Wed
+```
+
+### 4. List all Tasks
+- Displays all tasks.
+
+Example:
+```
+list
+```
+
+### 5. Mark Done
+- Marks a task as done.
+- Format: `mark <number>`
+
+Example:
+```
+mark 1
+```
+
+### 6. Mark Undone
+- Marks a task as undone.
+- Format: `unmark <number>`
+
+Example:
+```
+unmark 1
+```
+
+### 7. Delete
+- Deletes a task.
+- Format: `delete <number>`
+
+Example:
+```
+delete 1
+```
+
+### 8. Find Tasks
+- Search tasks by one or more keywords.
+- Format: `find <keywords>`
+
+Example:
+```
+find return book
+```
+
+### 9. Exit Application
+- Closes Penguin safely
+
+```
+bye
+```
+
+## 📊 Command Summary Table
+| Command  | Format                                        |
+|----------|-----------------------------------------------|
+| todo     | `todo <description>`                          |
+| deadline | `deadline <description> /by <date time>`      |
+| event    | `event <description> /from <start> /to <end>` |
+| list     | `list`                                        |
+| mark     | `mark <number>`                               |
+| unmark   | `unmark <number>`                             |
+| delete   | `delete <number>`                             |
+| find     | `find <keywords>`                             |
+| exit     | `bye`                                         |
