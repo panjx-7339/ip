@@ -1,8 +1,8 @@
 package penguin.ui;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import penguin.exception.PenguinException;
 import penguin.task.Task;
@@ -95,12 +95,12 @@ public class Ui {
     @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public String showUserGuide() throws PenguinException {
         try {
-            try (BufferedReader br = new BufferedReader(new FileReader(
-                    Paths.get("src", "main", "resources", "help", "help.txt").toFile()))) {
+            InputStream inputStream = getClass().getResourceAsStream("/help/help.txt");
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
+                    sb.append(line).append("\n");
                 }
                 return sb.toString();
             }

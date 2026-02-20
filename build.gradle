@@ -33,6 +33,14 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:5.18.0'
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
 

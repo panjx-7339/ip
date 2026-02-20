@@ -6,4 +6,5 @@ mark <number>: mark a task as done
 unmark <number>: unmark a task as done
 delete <number>: delete a task
 find <keywords>: find one or more tasks e.g. find return book
+help: show user guide
 bye: quit the application
