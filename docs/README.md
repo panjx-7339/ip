@@ -133,14 +133,14 @@ bye
 
 ## 📊 Command Summary Table
 
-| Command  | Format                                        |
-|----------|-----------------------------------------------|
-| todo     | `todo <description>`                          |
-| deadline | `deadline <description> /by <date time>`      |
-| event    | `event <description> /from <start> /to <end>` |
-| list     | `list`                                        |
-| mark     | `mark <number>`                               |
-| unmark   | `unmark <number>`                             |
-| delete   | `delete <number>`                             |
-| find     | `find <keywords>`                             |
-| exit     | `bye`                                         |
+| Command  | Format                                        | Example                                           |
+|----------|-----------------------------------------------|---------------------------------------------------|
+| Todo     | `todo <description>`                          | `todo read book`                                  |
+| Deadline | `deadline <description> /by <date time>`      | `deadline return book /by 2024-12-31 1800`        |
+| Event    | `event <description> /from <start> /to <end>` | `event project meeting /from Mon 2pm /to Mon 4pm` |
+| List     | `list`                                        | `list`                                            |
+| Mark     | `mark <index>`                                | `mark 1`                                          |
+| Unmark   | `unmark <index>`                              | `unmark 1`                                        |
+| Find     | `find <keyword>`                              | `find book`                                       |
+| Delete   | `delete <index>`                              | `delete 3`                                        |
+| Exit     | `bye`                                         | `bye`                                             |
